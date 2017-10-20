@@ -38,6 +38,10 @@ var Player = function(x, y) {
   console.log("y: " + this.y);
 };
 
+Player.prototype.render = function() {
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
 
 
 // Now instantiate your objects.

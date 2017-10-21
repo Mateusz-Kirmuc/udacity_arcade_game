@@ -18,7 +18,27 @@ Enemy.prototype.update = function(dt) {
   // which will ensure the game runs at the same speed for
   // all computers.
   this.x = this.x + this.speed * dt;
+  if (this.x > 505) {
+    this.change_params();
+  }
 };
+
+Enemy.prototype.change_params = function() {
+  console.log("change_params fired!");
+  this.x = 0;
+  this.y = this.get_random_y_coordinate();
+  this.speed = this.get_random_int_from_range(100, 300);
+}
+
+Enemy.prototype.get_random_y_coordinate = function() {
+  let available_y_coordinates = [60, 143, 226];
+  let index = this.get_random_int_from_range(0, 2);
+  return available_y_coordinates[index];
+}
+
+Enemy.prototype.get_random_int_from_range = function(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {

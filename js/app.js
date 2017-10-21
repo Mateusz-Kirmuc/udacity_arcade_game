@@ -22,7 +22,7 @@ Enemy.prototype.update = function(dt) {
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 // Now write your own player class
@@ -42,28 +42,15 @@ Player.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-Player.prototype.update = function() {
-  if (404 >= this.x + this.dx && this.x + this.dx >= 0) {
-    this.x = this.x + this.dx;
-  }
-  if (390 >= this.y + this.dy && this.y + this.dy >= 0) {
-    this.y = this.y + this.dy;
-  }
-  if (this.dx !== 0 || this.dy !== 0) {
-    console.log("x: " + this.x);
-    console.log("y: " + this.y);
-  }
-  this.dx = 0;
-  this.dy = 0;
-}
+Player.prototype.update = function() {};
 
 Player.prototype.handleInput = function(key) {
   switch (key) {
     case "up":
-      this.dy = this.dy - 78;
+      this.dy = this.dy - 83;
       break;
     case "down":
-      this.dy = this.dy + 78;
+      this.dy = this.dy + 83;
       break;
     case "right":
       this.dx = this.dx + 101;
@@ -73,23 +60,36 @@ Player.prototype.handleInput = function(key) {
       break;
   }
 
+  if (404 >= this.x + this.dx && this.x + this.dx >= 0) {
+    this.x += this.dx;
+    console.log("x: " + this.x);
+    this.dx = 0;
+  }
+  if (405 >= this.y + this.dy && this.y + this.dy >= -10) {
+    this.y += this.dy;
+    console.log("y: " + this.y);
+    this.dy = 0;
+  }
+
+  this.dy = 0;
+  this.dx = 0;
 }
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 const allEnemies = [new Enemy(0, 60, 200)];
-const player = new Player(0, 0);
+const player = new Player(0, -10);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
-        37: 'left',
-        38: 'up',
-        39: 'right',
-        40: 'down'
-    };
+  var allowedKeys = {
+    37: 'left',
+    38: 'up',
+    39: 'right',
+    40: 'down'
+  };
 
-    player.handleInput(allowedKeys[e.keyCode]);
+  player.handleInput(allowedKeys[e.keyCode]);
 });

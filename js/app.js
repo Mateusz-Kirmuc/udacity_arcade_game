@@ -1,5 +1,9 @@
 const pavement_tracks = [60, 143, 226];
-const enemy_x_start = -101;
+const enemy_initial_x_coord = -101;
+const player_initial_coords = {
+  x: 202,
+  y: 405
+};
 
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
@@ -28,7 +32,7 @@ Enemy.prototype.update = function(dt) {
 
 Enemy.prototype.change_params = function() {
   console.log("change_params fired!");
-  this.x = enemy_x_start;
+  this.x = enemy_initial_x_coord;
   this.y = this.get_random_y_coordinate();
   this.speed = this.get_random_int_from_range(100, 300);
 }
@@ -101,11 +105,11 @@ Player.prototype.handleInput = function(key) {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 const allEnemies = [
-  new Enemy(enemy_x_start, pavement_tracks[1], 100),
-  new Enemy(enemy_x_start, pavement_tracks[0], 200),
-  new Enemy(enemy_x_start, pavement_tracks[2], 300),
+  new Enemy(enemy_initial_x_coord, pavement_tracks[1], 100),
+  new Enemy(enemy_initial_x_coord, pavement_tracks[0], 200),
+  new Enemy(enemy_initial_x_coord, pavement_tracks[2], 300),
 ];
-const player = new Player(0, -10);
+const player = new Player(player_initial_coords.x, player_initial_coords.y);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.

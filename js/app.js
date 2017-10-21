@@ -1,3 +1,5 @@
+// Declare necessary constants
+
 const pavement_tracks = [60, 143, 226];
 const enemy_initial_x_coord = -101;
 const player_initial_coords = {
@@ -34,15 +36,20 @@ Enemy.prototype.update = function(dt) {
   // which will ensure the game runs at the same speed for
   // all computers.
   this.x = this.x + this.speed * dt;
+
+  // Change enemy track and speed when it is off the screen
   if (this.x > 505) {
     this.change_params();
   }
+
+  // Handle player-enemy collision
   if (this.isCollision()) {
     player.x = player_initial_coords.x;
     player.y = player_initial_coords.y;
   }
 };
 
+// When enemy head is located in the player area, then it's collision.
 Enemy.prototype.isCollision = function() {
   let enemy_head = {
     x: this.x + enemy_img_dimensions.x,
@@ -54,26 +61,24 @@ Enemy.prototype.isCollision = function() {
   } else {
     return false;
   }
-  //   player.y <= enemy_head.y <= player.y + player_img_dimensions.y) {
-  //   console.log("collision!");
-  //   return true;
-  // } else {
-  //   return false;
-  // }
 };
 
+// When enemy is off the screen, this method choose new initial position of
+// the enemy and its speed.
 Enemy.prototype.change_params = function() {
   this.x = enemy_initial_x_coord;
-  this.y = this.get_random_y_coordinate();
-  this.speed = this.get_random_int_from_range(200, 400);
+  this.y = get_random_y_coordinate();
+  this.speed = get_random_int_from_range(200, 400);
 }
 
-Enemy.prototype.get_random_y_coordinate = function() {
-  let index = this.get_random_int_from_range(0, 2);
+// Helper function which randomly chooses pavement track y coordinate
+get_random_y_coordinate = function() {
+  let index = get_random_int_from_range(0, 2);
   return pavement_tracks[index];
 }
 
-Enemy.prototype.get_random_int_from_range = function(min, max) {
+// Helper function which randomly choose integer from range
+get_random_int_from_range = function(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
@@ -91,15 +96,26 @@ var Player = function(x, y) {
   this.y = y;
   this.dx = 0;
   this.dy = 0;
-  console.log("x: " + this.x);
-  console.log("y: " + this.y);
 };
 
 Player.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-Player.prototype.update = function() {};
+// Update player position, unless player goes off the screen.
+Player.prototype.update = function() {
+  // collision functionality implemented inside Enemy update method
+  if (404 >= this.x + this.dx && this.x + this.dx >= 0) {
+    this.x += this.dx;
+    this.dx = 0;
+  }
+  if (405 >= this.y + this.dy && this.y + this.dy >= -10) {
+    this.y += this.dy;
+    this.dy = 0;
+  }
+  this.dy = 0;
+  this.dx = 0;
+};
 
 Player.prototype.handleInput = function(key) {
   switch (key) {
@@ -117,16 +133,13 @@ Player.prototype.handleInput = function(key) {
       break;
   }
 
-  if (404 >= this.x + this.dx && this.x + this.dx >= 0) {
-    this.x += this.dx;
-    // console.log("x: " + this.x);
-    this.dx = 0;
-  }
-  if (405 >= this.y + this.dy && this.y + this.dy >= -10) {
-    this.y += this.dy;
-    // console.log("y: " + this.y);
-    this.dy = 0;
-  }
+  this.update();
+  this.handleWin();
+
+};
+
+// Function moves player to initial position when he gets to 'sea area'.
+Player.prototype.handleWin = function() {
   if (this.y == -10) {
     let player = this;
     setTimeout(function() {
@@ -134,9 +147,7 @@ Player.prototype.handleInput = function(key) {
       player.y = player_initial_coords.y;
     }, 100);
   }
-  this.dy = 0;
-  this.dx = 0;
-}
+};
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies

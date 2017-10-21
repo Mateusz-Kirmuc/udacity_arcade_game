@@ -96,7 +96,13 @@ Player.prototype.handleInput = function(key) {
     console.log("y: " + this.y);
     this.dy = 0;
   }
-
+  if (this.y == -10) {
+    let player = this;
+    setTimeout(function() {
+      player.x = player_initial_coords.x;
+      player.y = player_initial_coords.y;
+    }, 100);
+  }
   this.dy = 0;
   this.dx = 0;
 }

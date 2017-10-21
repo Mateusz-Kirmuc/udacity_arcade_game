@@ -1,3 +1,6 @@
+const pavement_tracks = [60, 143, 226];
+const enemy_x_start = -101;
+
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
   // Variables applied to each of our instances go here,
@@ -25,15 +28,14 @@ Enemy.prototype.update = function(dt) {
 
 Enemy.prototype.change_params = function() {
   console.log("change_params fired!");
-  this.x = 0;
+  this.x = enemy_x_start;
   this.y = this.get_random_y_coordinate();
   this.speed = this.get_random_int_from_range(100, 300);
 }
 
 Enemy.prototype.get_random_y_coordinate = function() {
-  let available_y_coordinates = [60, 143, 226];
   let index = this.get_random_int_from_range(0, 2);
-  return available_y_coordinates[index];
+  return pavement_tracks[index];
 }
 
 Enemy.prototype.get_random_int_from_range = function(min, max) {
@@ -98,7 +100,11 @@ Player.prototype.handleInput = function(key) {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-const allEnemies = [new Enemy(0, 60, 200)];
+const allEnemies = [
+  new Enemy(enemy_x_start, pavement_tracks[1], 100),
+  new Enemy(enemy_x_start, pavement_tracks[0], 200),
+  new Enemy(enemy_x_start, pavement_tracks[2], 300),
+];
 const player = new Player(0, -10);
 
 // This listens for key presses and sends the keys to your

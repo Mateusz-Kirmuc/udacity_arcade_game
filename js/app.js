@@ -4,6 +4,15 @@ const player_initial_coords = {
   x: 202,
   y: 405
 };
+const enemy_img_dimensions = {
+  x: 101,
+  y: 60,
+}
+
+const player_img_dimensions = {
+  x: 101,
+  y: 80
+}
 
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
@@ -28,13 +37,35 @@ Enemy.prototype.update = function(dt) {
   if (this.x > 505) {
     this.change_params();
   }
+  if (this.isCollision()) {
+    player.x = player_initial_coords.x;
+    player.y = player_initial_coords.y;
+  }
+};
+
+Enemy.prototype.isCollision = function() {
+  let enemy_head = {
+    x: this.x + enemy_img_dimensions.x,
+    y: this.y + enemy_img_dimensions.y / 2
+  }
+  if (player.x <= enemy_head.x && enemy_head.x <= player.x + enemy_img_dimensions.x &&
+    player.y <= enemy_head.y && enemy_head.y <= player.y + enemy_img_dimensions.y) {
+    return true;
+  } else {
+    return false;
+  }
+  //   player.y <= enemy_head.y <= player.y + player_img_dimensions.y) {
+  //   console.log("collision!");
+  //   return true;
+  // } else {
+  //   return false;
+  // }
 };
 
 Enemy.prototype.change_params = function() {
-  console.log("change_params fired!");
   this.x = enemy_initial_x_coord;
   this.y = this.get_random_y_coordinate();
-  this.speed = this.get_random_int_from_range(100, 300);
+  this.speed = this.get_random_int_from_range(200, 400);
 }
 
 Enemy.prototype.get_random_y_coordinate = function() {
@@ -88,12 +119,12 @@ Player.prototype.handleInput = function(key) {
 
   if (404 >= this.x + this.dx && this.x + this.dx >= 0) {
     this.x += this.dx;
-    console.log("x: " + this.x);
+    // console.log("x: " + this.x);
     this.dx = 0;
   }
   if (405 >= this.y + this.dy && this.y + this.dy >= -10) {
     this.y += this.dy;
-    console.log("y: " + this.y);
+    // console.log("y: " + this.y);
     this.dy = 0;
   }
   if (this.y == -10) {
@@ -111,9 +142,9 @@ Player.prototype.handleInput = function(key) {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 const allEnemies = [
-  new Enemy(enemy_initial_x_coord, pavement_tracks[1], 100),
-  new Enemy(enemy_initial_x_coord, pavement_tracks[0], 200),
-  new Enemy(enemy_initial_x_coord, pavement_tracks[2], 300),
+  new Enemy(enemy_initial_x_coord, pavement_tracks[1], 500),
+  new Enemy(enemy_initial_x_coord, pavement_tracks[0], 500),
+  new Enemy(enemy_initial_x_coord, pavement_tracks[2], 500),
 ];
 const player = new Player(player_initial_coords.x, player_initial_coords.y);
 

@@ -1,6 +1,17 @@
-frontend-nanodegree-arcade-game
-===============================
+# Classic Arcade Game
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+## About
+**Classic Arcade** Game is simple, browser arcade game, similar to old classic games
+of that type.
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+## How to run
+All you have to do in order to run this game is download game folder, unpack
+it and then open index.html file using your browser. Game don't require any
+additional programs or dependencies to run.
+
+## How to play
+Game is about moving character to get the blue area in the top of a board.
+Character cannot goes outside the board. Players goal is to avoid collisions
+with enemies who move on pavement tracks horizontally. When collision occurs
+player is moved to initial position. When he gets to blue area, game is done
+and he can start again.     
